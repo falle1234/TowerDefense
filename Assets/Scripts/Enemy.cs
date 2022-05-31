@@ -7,16 +7,18 @@ public class Enemy : MonoBehaviour
 {
     [SerializeField] float speed = 10;
     [SerializeField] float hitDiv = 10;
+    [SerializeField] int money = 10;
     [SerializeField] GameObject barObj;
     int path;
     float health;
 
-
+    GameMaster gameMaster;
     // Start is called before the first frame update
     void Start()
     {
         path = 0;
         health = 100;
+        gameMaster = GameObject.Find("GameMaster").GetComponent<GameMaster>();
     }
 
     // Update is called once per frame
@@ -55,6 +57,7 @@ public class Enemy : MonoBehaviour
         else if ((transform.position.x > 31f) && (path == 6))
         {
             GameObject.Find("Gameover").GetComponent<TMPro.TMP_Text>().enabled = true;
+            gameMaster.gameover = true;
             path++;
         }
 
@@ -68,6 +71,7 @@ public class Enemy : MonoBehaviour
         if (health <= 0)
         {
             // Dead
+            gameMaster.money += money;
             Destroy(gameObject);
         }
         else
